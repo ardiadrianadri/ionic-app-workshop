@@ -1,4 +1,5 @@
 <ion-content padding>
+  <errors-display [errors]="errors"></errors-display>
   <div class="presentation">
       <img src="assets/images/FancyCat.jpg" />
       <h1>Honey Kitties</h1>
@@ -7,18 +8,18 @@
 
     <ion-item>
       <ion-label>Username</ion-label>
-      <ion-input type="text" value=""></ion-input>
+      <ion-input type="text" value="" [(ngModel)]="username"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>Password</ion-label>
-      <ion-input type="password" value=""></ion-input>
+      <ion-input type="password" value="" [(ngModel)]="password"></ion-input>
     </ion-item>
 
   </ion-list>
 
   <div padding class="login_area">
-    <button ion-button color="primary" block>Log in</button>
+    <button ion-button color="primary" block (click)="navigateLogin()">Log in</button>
     <button ion-button color="primary" outline block (click)="navigateSignIn()">Sign In</button>
   </div>
 

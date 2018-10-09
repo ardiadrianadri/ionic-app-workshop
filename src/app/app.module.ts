@@ -5,10 +5,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { HomePage, SigninPage} from '../pages';
+import { HomePage, SigninPage, NavMenuPage } from '../pages';
 import { ComponentsModule } from '../components';
 import { Camera } from '@ionic-native/camera';
-const pages = [ MyApp, HomePage, SigninPage ];
+import { IonicStorageModule } from '@ionic/storage';
+import { CoreModule } from '../core';
+
+const pages = [ MyApp, HomePage, SigninPage, NavMenuPage ];
 @NgModule({
   declarations: [
     ...pages
@@ -16,6 +19,11 @@ const pages = [ MyApp, HomePage, SigninPage ];
   imports: [
     BrowserModule,
     ComponentsModule,
+    CoreModule,
+    IonicStorageModule.forRoot({
+      name: '__users',
+      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    }),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],

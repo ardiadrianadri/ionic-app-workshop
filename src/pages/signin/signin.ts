@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, ValidationErrors, AbstractControl } from '@angular/forms';
 
 import { CameraOptions, Camera } from '@ionic-native/camera';
+import { UserApi } from '../../core';
+import { Response, UserData } from '../../common';
+import { NavController } from 'ionic-angular';
+
 @Component({
     selector: 'sign-in',
     templateUrl: 'signin.html'
@@ -37,7 +41,9 @@ export class SigninPage {
 
     constructor(
         private _fb: FormBuilder,
-        private _camera: Camera
+        private _camera: Camera,
+        private _userService: UserApi,
+        private _navCtrl: NavController
     ) {
         this.singupForm = this._fb.group({
             name: ['', Validators.required],
@@ -65,7 +71,25 @@ export class SigninPage {
    }
 
     public submit() {
-        console.log(this.singupForm);
+        const user: UserData = {
+            name: this.name.value,
+            surname: this.surname.value,
+            email: this.email.value,
+            password: this.password.value,
+            photo: (this.image) ? this.image: null,
+            username: this.username.value
+        }
+
+        if (this.errorsMsg.register) {
+            delete this.errorsMsg.register;
+        }
+
+        this._userService.createUser(user).subscribe(
+            () => { this._navCtrl.pop(); },
+            (error: Response) => {
+                this.errorsMsg.register = error.message;
+            }
+        );
     }
 
     public clean() {
