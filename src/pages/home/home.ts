@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
+import { Observable } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
+
 import { SigninPage } from '../signin/signin';
 import { UserApi } from '../../core';
 import { UserData, Response } from '../../common';
@@ -21,6 +24,16 @@ export class HomePage {
     private _userService: UserApi
   ) {}
 
+  ionViewWillEnter() {
+    this._userService.isSessionActive().subscribe(
+      (isSessionActive: boolean) => {
+        if (isSessionActive) {
+          this.navCtrl.push(NavMenuPage);
+        }
+      }
+    )
+  }
+
   public navigateSignIn() {
     this.navCtrl.push(SigninPage);
   }
@@ -28,17 +41,24 @@ export class HomePage {
   public navigateLogin() {
     this.errors = null;
 
-    this._userService.searchUser(this.username).subscribe(
-      (user: UserData) => {
+    this._userService.searchUser(this.username).pipe(
+      concatMap((user: UserData) => {
+        let result: Observable<Response> = null;
+
         if (user && (user.password === this.password)) {
-          this.navCtrl.push(NavMenuPage);
+          result = this._userService.startSession(user);
         } else {
-          this.errors = ['Incorrect username or password'];
+          result = Observable.throw({
+            success: false,
+            message: 'Incorrect username or password'
+          });
         }
-      },
-      (error: Response) => {
-        this.errors = [error.message];
-      }
+
+        return result;
+      })
+    ).subscribe(
+      () => { this.navCtrl.push(NavMenuPage); },
+      (error: Response) => { this.errors = [error.message]; }
     );
   }
 }

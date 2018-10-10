@@ -1,3 +1,19 @@
-<ion-content padding> 
-  <h1>This will be a navigation menu</h1>
+<ion-menu [content]="content">
+  <ion-header>
+    <ion-toolbar class="user-header">
+        <ion-icon name="contact"></ion-icon>
+        <span class="user-name">USER NAME</span>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list class="menu-options">
+        <span>
+            <ion-icon name="exit"></ion-icon>
+            <span class="menu-text">Logout</span>
+        </span>
+    </ion-list>
 </ion-content>
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

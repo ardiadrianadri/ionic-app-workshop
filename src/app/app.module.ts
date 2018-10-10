@@ -5,13 +5,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
-import { HomePage, SigninPage, NavMenuPage } from '../pages';
+import { HomePage, SigninPage, NavMenuPage, ListCatsPage } from '../pages';
 import { ComponentsModule } from '../components';
 import { Camera } from '@ionic-native/camera';
 import { IonicStorageModule } from '@ionic/storage';
 import { CoreModule } from '../core';
 
-const pages = [ MyApp, HomePage, SigninPage, NavMenuPage ];
+const pages = [ MyApp, HomePage, SigninPage, NavMenuPage, ListCatsPage ];
 @NgModule({
   declarations: [
     ...pages

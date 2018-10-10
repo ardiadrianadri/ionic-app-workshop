@@ -82,4 +82,21 @@ export class UserApi {
     public getSession(): Observable<UserData> {
         return this.searchUser(UserApi.SESSION);
     }
+
+    public isSessionActive(): Observable<boolean> {
+        return Observable.fromPromise(this._storage.keys())
+        .pipe(
+            map((keys: string[]) => {
+                const leng = keys.length;
+                let result = false;
+                let index = 0;
+
+                do {
+                    result = keys[index++] === UserApi.SESSION;
+                } while((index < leng) && (!result));
+
+                return result;
+            })
+        );
+    }
 }
