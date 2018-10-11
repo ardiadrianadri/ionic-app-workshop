@@ -25,13 +25,13 @@ export class HomePage {
   ) {}
 
   ionViewWillEnter() {
-    this._userService.isSessionActive().subscribe(
-      (isSessionActive: boolean) => {
-        if (isSessionActive) {
+    this._userService.isSessionActive().then(
+      (isActive: boolean) => {
+        if (isActive) {
           this.navCtrl.push(NavMenuPage);
         }
       }
-    )
+    );
   }
 
   public navigateSignIn() {
@@ -59,6 +59,17 @@ export class HomePage {
     ).subscribe(
       () => { this.navCtrl.push(NavMenuPage); },
       (error: Response) => { this.errors = [error.message]; }
+    );
+  }
+
+  public TryPass() {
+    this.navCtrl.push(NavMenuPage)
+    .then(
+      (value: boolean) => {
+        if (!value) {
+          this.errors = ['You need to login in the app to pass'];
+        }
+      }
     );
   }
 }

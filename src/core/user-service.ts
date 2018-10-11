@@ -83,20 +83,21 @@ export class UserApi {
         return this.searchUser(UserApi.SESSION);
     }
 
-    public isSessionActive(): Observable<boolean> {
-        return Observable.fromPromise(this._storage.keys())
-        .pipe(
-            map((keys: string[]) => {
-                const leng = keys.length;
-                let result = false;
-                let index = 0;
+    public isSessionActive(): Promise<any> {
+        return this._storage.keys().then(
+            (keys: string[]) => {
+                return new Promise((resolve) => {
+                    const leng = keys.length;
+                    let result = false;
+                    let index = 0;
 
-                do {
-                    result = keys[index++] === UserApi.SESSION;
-                } while((index < leng) && (!result));
+                    do {
+                        result = keys[index++] === UserApi.SESSION;
+                    } while((index < leng) && (!result));
 
-                return result;
-            })
-        );
+                    resolve(result);
+                });
+            }
+        )
     }
 }

@@ -18,6 +18,9 @@ export class NavMenuPage {
     private _navCtrl: NavController
   ) { }
 
+  ionViewCanEnter() {
+    return this._userService.isSessionActive();
+  }
   ionViewWillEnter() {
     this._userService.getSession().subscribe(
       (user: UserData) => { this.user = user; },
