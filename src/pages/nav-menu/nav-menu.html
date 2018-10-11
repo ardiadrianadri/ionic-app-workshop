@@ -1,8 +1,9 @@
 <ion-menu [content]="content">
   <ion-header>
-    <ion-toolbar class="user-header">
-        <ion-icon name="contact"></ion-icon>
-        <span class="user-name">USER NAME</span>
+    <ion-toolbar *ngIf="user" class="user-header">
+        <img src="{{user.photo}}" *ngIf="user.photo" />
+        <ion-icon name="contact" *ngIf="!user.photo"></ion-icon>
+        <span class="user-name">{{user.username}}</span>
     </ion-toolbar>
 </ion-header>
 
